@@ -52,6 +52,25 @@ public class BoardController implements BoardUI {
         this.playerName = playerName;
     }
 
+
+
+
+    public void btnPlayAgainOnAction(ActionEvent actionEvent) {
+        initializeGame();
+        isAiPlaying = false;
+        isGameOver = false;
+        pneOver.setVisible(false);
+        lblStatus.getStyleClass().clear();
+        lblStatus.setText("LET'S PLAY !");
+        grpCols.getChildren().stream().map(n -> (VBox) n).forEach(vbox -> {
+            vbox.getChildren().clear();
+            vbox.getStyleClass().remove("col-ai");
+            vbox.getStyleClass().remove("col-filled");
+            vbox.getStyleClass().add("col-human");
+        });
+        root.getChildren().remove(root.lookup("#rectOverlay"));
+    }
+
     @Override
     public void update(int col, boolean isHuman) {
         if (isGameOver) return;
@@ -122,21 +141,6 @@ public class BoardController implements BoardUI {
         pneOver.setVisible(true);
         pneOver.toFront();
         Platform.runLater(btnPlayAgain::requestFocus);
-    }
 
-    public void btnPlayAgainOnAction(ActionEvent actionEvent) {
-        initializeGame();
-        isAiPlaying = false;
-        isGameOver = false;
-        pneOver.setVisible(false);
-        lblStatus.getStyleClass().clear();
-        lblStatus.setText("LET'S PLAY !");
-        grpCols.getChildren().stream().map(n -> (VBox) n).forEach(vbox -> {
-            vbox.getChildren().clear();
-            vbox.getStyleClass().remove("col-ai");
-            vbox.getStyleClass().remove("col-filled");
-            vbox.getStyleClass().add("col-human");
-        });
-        root.getChildren().remove(root.lookup("#rectOverlay"));
     }
 }
